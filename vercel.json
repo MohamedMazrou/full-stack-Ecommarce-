@@ -1,6 +1,0 @@
-{
-    "version": 2,
-    "buildCommand": "ng build --configuration=production",
-    "outputDirectory": "dist/ecommarce",
-    "framework": null
-}
