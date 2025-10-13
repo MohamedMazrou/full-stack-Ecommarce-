@@ -1,0 +1,10 @@
+
+
+.active-link svg {
+    @apply text-white;
+}
+
+.active-link span {
+    @apply text-white;
+   
+}

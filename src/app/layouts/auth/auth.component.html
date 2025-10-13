@@ -1,0 +1,8 @@
+<app-auth-navbar></app-auth-navbar>
+<main [@routeAnimations]="prepareRoute(outlet)">
+
+<router-outlet  #outlet="outlet"></router-outlet>
+
+    </main>
+
+<app-auth-footer></app-auth-footer>

@@ -1,0 +1,149 @@
+<section
+  class="mt-44 md:mt-28 grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-col-6   gap-7 md:p-5 h-fit"
+>
+  @for (order of MyOrders | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; track  order.ID_order ) {
+  <div @deleteAnimation
+    class="space-y-4 w-full  h-fit   rounded-lg border border-gray-200 bg-white p-4 shadow-sm  relative sm:p-6 "
+  >
+         <!-- button  -->
+
+<div [ngClass]="{'hidden':order.received || order.Undelivered}" *ngIf="order.Shipped"  class=" inset-0 bg-black bg-opacity-40 flex items-center absolute  justify-center z-10">
+ 
+  <div class="bg-white w-full md:w-2/3 p-5 shadow-lg h-36 
+              flex flex-col items-center justify-center gap-3 
+              rounded-md z-20">
+    <h2 class="text-lg font-semibold">Order received?</h2>
+    <div class="flex gap-4">
+      <button (click)="received(order)" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Yes</button>
+      <button (click)="Undelivered(order)" class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">No</button>
+    </div>
+  </div>
+</div>
+
+
+    <p class="text-xl font-semibold text-gray-900 uppercase">
+     order
+      <span class="text-xl font-semibold text-gray-900">({{ $index + 1}})</span>
+    </p>
+
+
+    
+                                    <button *ngIf=" order.received" (click)="deleteOrder($index,order)" type="button"
+                                        
+                                        class="inline-flex items-center text-sm font-medium text-red-600 hover:underline absolute top-5 right-2">
+                                        <svg class="me-1.5 h-7 w-7" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                            viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
+                                        </svg>
+                                       
+                                    </button>
+
+    <img class="h-10 mx-auto rounded-full" [src]="order.image" alt="" />
+
+    <div class="space-y-4">
+      <div class="space-y-2">
+        <dl class="flex items-center justify-between gap-4">
+          <dt class="text-base font-normal text-gray-500">Email</dt>
+          <dd class="text-base font-medium overflow-auto">{{ order.email || 'No email'}}</dd>
+        </dl>
+
+        <!-- <dl class="flex items-center justify-between gap-4">
+                                <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
+                                <dd class="text-base font-medium text-green-600">-$299.00</dd>
+                            </dl> -->
+
+        <dl class="flex items-center justify-between gap-4">
+          <dt class="text-base font-normal text-gray-500">phone Number</dt>
+          <dd class="text-base font-medium text-gray-900">
+            {{ order.phoneNumber }}
+          </dd>
+        </dl>
+
+        <dl class="flex items-center justify-between gap-4">
+          <dt class="text-base font-normal text-gray-500">city</dt>
+          <dd class="text-base font-medium text-gray-900">{{ order.city }}</dd>
+        </dl>
+        <dl class="flex items-center justify-between gap-4">
+          <dt class="text-base font-normal text-gray-500">street</dt>
+          <dd class="text-base font-medium text-gray-900">
+            {{ order.street }}
+          </dd>
+        </dl>
+        <dl class="flex items-center justify-between gap-4">
+          <dt class="text-base font-normal text-gray-500">date</dt>
+          <dd class="text-base font-medium text-gray-900">{{ order.date }}</dd>
+        </dl>
+        <dl class="flex items-center justify-between gap-4">
+          <dt class="text-base font-normal text-gray-500">card number</dt>
+          <dd class="text-base font-medium text-gray-900">
+            {{ order.cardNumber | hiddenNumberCard }}
+          </dd>
+        </dl>
+
+      </div>
+
+      <dl
+        class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
+      >
+        <dt class="text-base font-bold text-gray-900">Paid</dt>
+        <dd class="text-base font-bold text-gray-900">
+          ${{ order.pay | number : "1.0-0" }}
+        </dd>
+      </dl>
+
+      <div class="flex flex-col xl:flex-row items-center relative  p-2 gap-1">
+       <span class="bg-blue-500 px-2 text-white rounded-xl whitespace-nowrap">Order Placed</span>
+       <span *ngIf="order.Processing"class="rounded-xl bg-orange-500 text-white  px-2 whitespace-nowrap">Processing</span>
+       <span *ngIf="order.Shipped"class="rounded-xl bg-blue-600 text-white  px-2 whitespace-nowrap">Shipped</span>
+       <span *ngIf="order.received"class="rounded-xl bg-green-500 text-white  px-2 whitespace-nowrap">received</span>
+       <span *ngIf="order.Undelivered"class="rounded-xl bg-red-600 text-white  px-2 whitespace-nowrap">Undelivered</span>
+
+
+       
+      </div>
+    </div>
+
+    <div class="flex items-center justify-center gap-2">
+      <a
+        [routerLink]="['/user/products/']"
+        title=""
+        class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
+      >
+        Continue Shopping
+        <svg
+          class="h-5 w-5"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 12H5m14 0-4 4m4-4-4-4"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  }
+ 
+
+</section>
+
+   <div class="p-7 flex justify-center items-center" *ngIf="!MyOrders ||MyOrders.length == 0">
+<img class="h-1/4 w-1/4" src="../../../assets/empty.png" alt="">
+    </div>
+
+    <!-- Pagination bar  -->
+                 <div  class="flex justify-center items-center mt-7">
+                    <pagination-controls (click)="_AddToCartService.TopScroll()" (pageChange)="p = $event">
+                    </pagination-controls>
+                </div> 
+
+          

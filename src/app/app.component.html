@@ -1,0 +1,52 @@
+<main [@routeAnimations]="prepareRoute(outlet)">
+
+   <router-outlet #outlet="outlet"></router-outlet>
+</main>
+<!-- search droub large screen -->
+<div  [ngClass]="{
+   'flex': _ShowOvarLayService.show_OvarLay ,
+   'scale-100': _ShowOvarLayService.show_OvarLay ,
+   'h-1/2': _ShowOvarLayService.show_OvarLay ,
+
+  'scale-0':!_ShowOvarLayService.show_OvarLay,
+  'h-0':!_ShowOvarLayService.show_OvarLay,
+
+
+}"
+   class=" hidden md:flex md:w-1/2 md:right-14 z-40 lg:w-1/3 2xl:w-1/4 fixed shadow-lg top-40 md:top-28 lg:right-20 flex-col  justify-center items-center gap-2 bg-black/50 lg:z-50 px-2.5 py-8 md:py-5 transtion duration-300 overflow-y-auto rounded-md">
+   @for (product of allProducts | searchProducts:_ShowOvarLayService.searchInp; track $index) {
+   <div (click)="_ShowOvarLayService.show_OvarLay = false; "  [routerLink]="['/user/details/',product.id]"  class=" flex hover:cursor-pointer p-4 hover:bg-black/35 md:hover:bg-black/20 rounded-md transition duration-300 w-full justify-center items-center gap-3 ">
+      <img loading="lazy" class="h-16" [src]="product.image" alt="">
+      <p class="text-white">{{product.title}}</p>
+   </div>
+   }
+
+
+
+
+</div>
+
+<!--  search droub small screen -->
+ 
+<div  [ngClass]="{
+   'flex': _ShowOvarLayService.show_OvarLay ,
+   'scale-100': _ShowOvarLayService.show_OvarLay ,
+   'h-1/2': _ShowOvarLayService.show_OvarLay ,
+
+  'scale-0':!_ShowOvarLayService.show_OvarLay,
+  'h-0':!_ShowOvarLayService.show_OvarLay,
+
+
+}"
+   class=" w-full md:hidden  z-40   fixed shadow-lg top-40  flex-col  justify-center items-center gap-1 bg-black/50  px-2.5 py-8  transtion duration-300 overflow-y-auto rounded-md">
+   @for (product of allProducts | searchProducts:_ShowOvarLayService.searchInp; track $index) {
+   <div (click)="_ShowOvarLayService.show_OvarLay = false; "  [routerLink]="['/user/details/',product.id]"  class=" flex hover:cursor-pointer  hover:bg-black/35 md:hover:bg-black/20 rounded-md transition duration-300 p-2 w-full justify-center items-center gap-3 ">
+      <p class="text-white">{{product.title |ProTitelcut}}</p>
+   </div>
+   }
+
+
+
+
+</div>
+

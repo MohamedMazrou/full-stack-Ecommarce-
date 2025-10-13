@@ -1,0 +1,363 @@
+
+
+
+
+<section *ngIf="!_IsLoadingService.isLoadingSkeleton"
+    class="bg-white py-8 mt-40 md:m-0 antialiased  md:py-16">
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">Shopping Cart</h2>
+
+        <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+            <div class="mx-auto  w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+                <div class="space-y-6 ">
+
+                    <!-- image empty cart -->
+                    <div *ngIf="allproductsInCart.length == 0"
+                        class="flex flex-col items-center justify-center w-full h-80 text-gray-500 gap-4">
+
+                        <img src="../../../assets/emptyCart.png" alt="Empty Cart"
+                            class="w-40 h-40 object-contain opacity-80">
+
+                        <p class="text-lg font-semibold">Your cart is empty</p>
+                        <span class="text-sm text-gray-400 whitespace-nowrap">Add some products to continue
+                            shopping</span>
+                    </div>
+
+
+
+
+
+                    @for (product of allproductsInCart | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; track
+                    product.id) {
+                    <div @deleteAnimation
+                        class="parent    rounded-lg border border-gray-200 bg-white p-4 shadow-sm  transition duration-300  md:p-6">
+                        <div class="space-y-4  md:flex md:items-center md:justify-between md:gap-6  md:space-y-0 ">
+                            <a class="shrink-0 md:order-1">
+                                <img class="h-20 w-20 cursor-pointer" [routerLink]="['/user/details/',product.id]"
+                                    [src]="product.image" />
+
+                            </a>
+
+                            <label for="counter-input" class="sr-only">Choose quantity:</label>
+                            <div class="flex items-center justify-between md:order-3 md:justify-end">
+                                <div class="flex items-center">
+                                    <button type="button" id="decrement-button" (click)="  decrement(product)"
+                                        data-input-counter-decrement="counter-input"
+                                        class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 ">
+                                        <svg class="h-2.5 w-2.5 text-gray-900 " aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M1 1h16" />
+                                        </svg>
+                                    </button>
+                                    <!-- incriment -->
+
+                                    <!-- input -->
+                                    <input type="number " data-input-counter [value]="product.Quantity "
+                                        class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 ">
+
+
+                                    <button type="button" (click)="inecrement(product)"
+                                        data-input-counter-increment="counter-input"
+                                        class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
+                                        <svg class="h-2.5 w-2.5 text-gray-900 " aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M9 1v16M1 9h16" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="ml-4 items-center justify-center text-end flex gap-3 md:order-4 md:w-32">
+                                    <!-- <p class="text-base font-bold text-gray-900 dark:text-white">{{product.price}}</p> -->
+                                    <del [ngClass]="{'block':product.discount , 'hidden': !product.discount}"
+                                        class="text-gray-500  ">${{product.price}}</del>
+
+                                    <span [ngClass]="{'hidden':!product.discount}"
+                                        class=" bg-red-500 rounded-full p-1 text-white w-fit text-sm">{{product.discount}}%</span>
+
+                                    <span [ngClass]="{'block':product.discount , 'hidden': !product.discount}"
+                                        class="text-lg  text-green-800">${{product.price * (1
+                                        - product.discount / 100)
+                                        |number:'1.0-0'}}</span>
+
+                                    <span [ngClass]="{'block':!product.discount , 'hidden': product.discount}"
+                                        class="text-lg  text-green-800">${{product.price
+                                        }}</span>
+
+                                </div>
+                            </div>
+
+                            <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
+                                <a (click)="_FilterProductService.getSinglePro(product.id)"
+                                    [routerLink]="['/user/details/',product.id]"
+                                    class="text-base cursor-pointer font-medium text-gray-900 hover:underline">
+                                    {{product.title}}
+                                </a>
+
+                                <div class="flex items-center gap-4">
+
+
+                                    <button type="button"
+                                        (click)="deleteProduct($index,product);_AddToCartService.deleteFromCarts(product.id)"
+                                        class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
+                                        <svg class="me-1.5 h-5 w-5" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                            viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
+                                        </svg>
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    }
+
+
+
+
+
+                </div>
+                <!-- Pagination bar -->
+                <div *ngIf="allproductsInCart.length !== 0" class="flex justify-center items-center mt-7">
+                    <pagination-controls (click)="TopScroll()" (pageChange)="p = $event">
+                    </pagination-controls>
+                </div>
+
+
+                <div class="hidden xl:mt-8 xl:block">
+                    <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">People also bought</h3>
+                    <div class="mt-6 grid grid-cols-3 gap-4 sm:mt-8">
+                        @for (productPopular of PouplerPro; track $index) {
+
+                        <div
+                            class="space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                            <a (click)="_FilterProductService.getSinglePro(productPopular.id);"
+                                [routerLink]="['/user/details/',productPopular.id]" class="overflow-hidden rounded">
+
+                                <img class="mx-auto  h-44 w-44 " [src]="productPopular.image" />
+                            </a>
+                            <div>
+                                <a (click)="_FilterProductService.getSinglePro(productPopular.id);"
+                                    [routerLink]="['/user/details/',productPopular.id]"
+                                    class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{productPopular.title
+                                    | ProTitelcut}}...</a>
+
+                                <p class="mt-2 text-base font-normal text-gray-500 ">{{productPopular.description|
+                                    ProTitelcut}}...</p>
+                            </div>
+                            <div>
+                                <p class="text-lg font-bold text-gray-900 dark:text-white">
+                                    <span class="line-through"> {{productPopular.price}} </span>
+                                </p>
+                                <p class="text-lg font-bold leading-tight text-green-700">${{productPopular.price * (1 -
+                                    productPopular.discount / 100)
+                                    |number:'1.0-0'}}</p>
+                            </div>
+                            <div class="mt-6 flex items-center gap-2.5">
+
+
+
+                                <button [routerLink]="['/user/details/',productPopular.id]"
+                                    class="text-white transition duration-500 hover:bg-zinc-950  hover:ring-4 focus:outline-none hover:ring-zinc-950 w-full font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-zinc-600 ">show
+                                    details</button>
+
+
+
+
+                            </div>
+
+                        </div>
+                        }
+
+
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+                <div
+                    class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm  sm:p-6">
+                    <p class="text-xl font-semibold text-gray-900 ">Order summary</p>
+
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <dl class="flex items-center justify-between gap-4">
+                                <dt class="text-base font-normal text-gray-500 dark:text-gray-900">Original price</dt>
+                                <dd class="text-base font-medium text-green-700 ">${{totalPrice |
+                                    number:'1.0-0'}}</dd>
+                            </dl>
+
+                            <!-- <dl class="flex items-center justify-between gap-4">
+                                <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
+                                <dd class="text-base font-medium text-green-600">-$299.00</dd>
+                            </dl> -->
+
+                            <dl class="flex items-center justify-between gap-4">
+                                <dt class="text-base font-normal text-gray-500 ">Store Pickup</dt>
+                                <dd class="text-base font-medium text-gray-900">$0</dd>
+                            </dl>
+
+                            <dl class="flex items-center justify-between gap-4">
+                                <dt class="text-base font-normal text-gray-500 ">Tax</dt>
+                                <dd class="text-base font-medium text-gray-900 ">$0</dd>
+                            </dl>
+                        </div>
+
+                        <dl
+                            class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 ">
+                            <dt class="text-base font-bold text-gray-900 ">Total</dt>
+                            <dd class="text-base font-bold text-gray-900 ">${{totalPrice|number:'1.0-0'}}
+                            </dd>
+                        </dl>
+                    </div>
+                    <!-- btn checkout -->
+                    <button [disabled]="allproductsInCart.length == 0" [ngClass]="{'bg-gray-300 cursor-default ring-0':allproductsInCart.length == 0,'bg-zinc-950 cursor-pointer hover:ring-4':allproductsInCart.length > 0}" [routerLink]="['/user/payment/']" (click)="pay()"
+                        class="flex w-full items-center justify-center  hover:ring-zinc-950 transition duration-300  rounded-lg  px-5 py-2.5 text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-zinc-950 ">Proceed
+                        to Checkout</button>
+
+
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="text-sm font-normal text-gray-500 "> or </span>
+                        <a [routerLink]="['/user/products/']" title=""
+                            class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">
+                            Continue Shopping
+                            <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+
+
+
+    </div>
+</section>
+
+<!-- skeleton -->
+<section *ngIf="_IsLoadingService.isLoadingSkeleton"
+    class="bg-white py-8 mt-40 md:m-0 antialiased  md:py-16">
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Shopping Cart</h2>
+
+        <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+
+            <!-- Products Skeleton -->
+            <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl space-y-6">
+                <div
+                    class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm   md:p-6 animate-pulse space-y-4">
+                    <div class="flex gap-4">
+                        <div class="h-20 w-20 bg-gray-200 rounded"></div>
+                        <div class="flex-1 space-y-2">
+                            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                            <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                            <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm   md:p-6 animate-pulse space-y-4">
+                    <div class="flex gap-4">
+                        <div class="h-20 w-20 bg-gray-200 rounded"></div>
+                        <div class="flex-1 space-y-2">
+                            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                            <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                            <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="hidden xl:mt-8 xl:block">
+                    <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">People also bought</h3>
+
+                    <div class="mt-6 grid grid-cols-3 gap-4 sm:mt-8">
+                        <!-- Skeleton Card 1 -->
+                        <div
+                            class="space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm   animate-pulse">
+                            <div class="mx-auto h-44 w-44 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                            <div class="space-y-2">
+                                <div class="h-5 bg-gray-300  rounded w-3/4"></div>
+                                <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                            </div>
+                            <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
+                            <div class="mt-6 h-10 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                        </div>
+
+                        <!-- Skeleton Card 2 -->
+                        <div
+                            class="space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm   animate-pulse">
+                            <div class="mx-auto h-44 w-44 bg-gray-300  rounded"></div>
+                            <div class="space-y-2">
+                                <div class="h-5 bg-gray-300  rounded w-3/4"></div>
+                                <div class="h-4 bg-gray-300  rounded w-full"></div>
+                            </div>
+                            <div class="h-5 bg-gray-300  rounded w-1/2"></div>
+                            <div class="mt-6 h-10 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                        </div>
+
+                        <!-- Skeleton Card 3 -->
+                        <div
+                            class="space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm   animate-pulse">
+                            <div class="mx-auto h-44 w-44 bg-gray-300  rounded"></div>
+                            <div class="space-y-2">
+                                <div class="h-5 bg-gray-300  rounded w-3/4"></div>
+                                <div class="h-4 bg-gray-300  rounded w-full"></div>
+                            </div>
+                            <div class="h-5 bg-gray-300  rounded w-1/2"></div>
+                            <div class="mt-6 h-10 bg-gray-300  rounded w-full"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+            <!-- Order Summary & Voucher Skeleton -->
+            <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+                <div
+                    class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700  sm:p-6 animate-pulse">
+                    <div class="h-5 bg-gray-200 rounded w-1/2"></div>
+                    <div class="space-y-2 mt-4">
+                        <div class="h-4 bg-gray-200 rounded w-full"></div>
+                        <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+                    </div>
+                    <div class="h-10 bg-gray-200 rounded w-full mt-4"></div>
+                    <div class="h-10 bg-gray-200 rounded w-full mt-2"></div>
+                </div>
+
+                <div
+                    class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700  sm:p-6 animate-pulse">
+                    <div class="h-4 bg-gray-200 rounded w-2/3 mb-2"></div>
+                    <div class="h-10 bg-gray-200 rounded w-full"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

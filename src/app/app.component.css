@@ -1,0 +1,60 @@
+::ng-deep .ngx-pagination .current {
+    padding: .1875rem .625rem;
+    background: #000000 !important;
+    color: #fefefe !important;
+    cursor: default;
+}
+
+::ng-deep .swiper-button-next,
+.swiper-button-prev {
+    position: absolute;
+    top: var(--swiper-navigation-top-offset, 50%);
+    width: calc(var(--swiper-navigation-size) / 44 * 27);
+    height: var(--swiper-navigation-size);
+    margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #848c94 !important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-pointer {
+    width: 3px !important;
+   
+    background-color: #000000 !important;
+  
+}
+
+::ng-deep .ngx-slider .ngx-slider-selection {
+    background-color: #000000 !important;
+
+}
+::ng-deep .ngx-slider {
+
+    width: 20% !important;
+  
+}
+::ng-deep .ngx-slider .ngx-slider-pointer.ngx-slider-active:after {
+    /* background-color: white !important; */
+    display: none !important;
+}
+.ngx-slider .ngx-slider-pointer:after {
+  display: none !important;
+}
+::ng-deep .ngx-slider .ngx-slider-pointer:after {
+  display: none !important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-bar-wrapper {
+  
+    cursor: pointer;
+  
+}
+@media (max-width: 768px) {
+    ::ng-deep .ngx-slider {
+        width: 50% !important;
+    
+       }  
+    }

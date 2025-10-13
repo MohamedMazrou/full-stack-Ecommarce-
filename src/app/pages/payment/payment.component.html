@@ -1,0 +1,312 @@
+<section class="bg-white py-8 antialiased mt-40 md:mt-20 md:py-16">
+  <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+    <div class="mx-auto flex justify-center items-center max-w-5xl">
+      
+   
+
+      <form [formGroup]="paymentDataUser" (ngSubmit)="getData(paymentDataUser)"
+        class="w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 lg:max-w-xl relative lg:p-8"
+      >
+
+
+     <!-- spinner -->
+        <div *ngIf="_IsLoadingService.IsLoading" class="items-center flex  w-fit  justify-center right-14 top-2  my-6 absolute  ">
+
+            <div role="status" class=" ">
+                <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin fill-zinc-950" viewBox="0 0 100 101"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor" />
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill" />
+                </svg>
+
+
+
+            </div>
+        </div>
+
+            <!-- alert succsec -->
+        <div [ngClass]="{'scale-100':showAlert , 'scale-0':!showAlert }"
+            class="p-2   left-0 md:left-auto md:right-14 flex gap-1 items-center    mx-auto transtion duration-300  w-fit absolute  mb-4 z-50  text-sm text-green-800 rounded-lg bg-green-50"
+            role="alert">
+            <span class="font-medium">Payment successful! You have paid $<span>{{totalPrice | number:'1.0-0'}}</span></span>
+            <svg class="w-6 h-6 text-green-700 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+        
+        
+        </div>
+        <div [ngClass]="{'scale-100':showAlertOrder , 'scale-0':!showAlertOrder }"
+            class="p-2 md:p-4   left-0 md:left-auto md:right-14 flex gap-1 items-center    mx-auto transtion duration-300  w-fit absolute  mb-4 z-50  text-sm  rounded-lg  bg-yellow-100"
+            role="alert">
+            <span class="font-medium sm:text-sm ">Wait until your previous order is shipped</span>
+        </div>
+
+        <h2
+          class="text-xl font-semibold text-gray-900 text-start sm:text-2xl pb-7"
+        >
+          Payment
+        </h2>
+
+        <div class="mb-6 grid grid-cols-2 gap-4">
+            <!-- city -->
+          <div class="col-span-2 sm:col-span-1">
+            <label
+              for="city"
+              class="mb-2 block text-sm font-medium text-gray-90"
+            >
+              city
+            </label>
+            <input
+            formControlName="city"
+              type="text"
+              id="city"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+              placeholder="city"
+            
+            />
+          </div>
+          <!-- email -->
+          <div class="col-span-2 sm:col-span-1">
+            <label
+              for="email"
+              class="mb-2 block text-sm font-medium text-gray-90"
+            >
+              Email
+            </label>
+            <input
+            formControlName="email"
+              type="text"
+              id="email"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+              placeholder="example@gmail.com"
+            
+            />
+          </div>
+          <!-- street -->
+          <div class="col-span-2 sm:col-span-1">
+            <label
+              for="street"
+              class="mb-2 block text-sm font-medium text-gray-90"
+            >
+              street
+            </label>
+            <input
+            formControlName="street"
+              type="text"
+              id="street"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+              placeholder="street"
+            
+            />
+          </div>
+          <!-- phone number -->
+          <div class="col-span-2 sm:col-span-1">
+            <label
+              for="phonenumber"
+              class="mb-2 block text-sm font-medium text-gray-90"
+            >
+              phonenumber
+            </label>
+            <input formControlName="phoneNumber"
+            placeholder="+02"
+              type="text"
+              id="phonenumber"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+           
+            />
+          </div>
+          <!-- full name -->
+          <div class="col-span-2 sm:col-span-1">
+            <label
+              for="full_name"
+              class="mb-2 block text-sm font-medium text-gray-90"
+            >
+              Full name (as displayed on card)*
+            </label>
+            <input
+            formControlName="fullName"
+              type="text"
+              id="full_name"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+              placeholder="Bonnie Green"
+         
+            />
+          </div>
+          <!-- Card number* -->
+          <div class="col-span-2 sm:col-span-1">
+            <label
+              for="card-number-input"
+              class="mb-2 block text-sm font-medium text-gray-900"
+            >
+              Card number*
+            </label>
+            <input
+            formControlName="cardNumber"
+              type="text"
+              id="card-number-input"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pe-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+              placeholder="xxxx-xxxx-xxxx-xxxx"
+            />
+          </div>
+          <!-- Card expiration* -->
+          <div>
+            <label
+              for="card-expiration-input"
+              class="mb-2 block text-sm font-medium text-gray-900"
+              >Card expiration*
+            </label>
+            <div class="relative">
+              <div
+                class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5"
+              >
+                <svg
+                  class="h-4 w-4 text-gray-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <input
+              formControlName="cardExpiration" 
+               
+                id="card-expiration-input"
+                type="text"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-9 text-sm text-gray-900"
+                placeholder="12/23"
+              />
+            </div>
+          </div>
+          <!-- cvv -->
+          <div>
+            <label
+              for="cvv-input"
+              class="mb-2 flex items-center gap-1 text-sm font-medium text-gray-900"
+            >
+              CVV*
+              <button
+                data-tooltip-target="cvv-desc"
+                data-tooltip-trigger="hover"
+                class="text-gray-400 hover:text-gray-900"
+              >
+                <svg
+                  class="h-4 w-4"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+              <div
+                id="cvv-desc"
+                role="tooltip"
+                class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700"
+              >
+                The last 3 digits on back of card
+                <div class="tooltip-arrow" data-popper-arrow></div>
+              </div>
+            </label>
+            <input
+           formControlName="cvv"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500  "
+              placeholder="•••"
+            />
+          </div>
+          <!-- date -->
+          <div class="col-span-2">
+            <label
+              for="date"
+              class="mb-2 flex items-center gap-1 text-sm font-medium text-gray-900"
+            >
+              Date
+        
+              <div
+                id="date"
+                role="tooltip"
+                class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700"
+              >
+                The last 3 digits on back of card
+                <div class="tooltip-arrow" data-popper-arrow></div>
+              </div>
+            </label>
+            <input
+           formControlName="date"
+             readonly class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500  "
+             
+            />
+          </div>
+        </div>
+
+        <button [disabled]="paymentDataUser.invalid" [ngClass]="{'bg-gray-400 cursor-default':paymentDataUser.invalid,' bg-zinc-950  focus:ring-4 focus:ring-zinc-950 cursor-pointer hover:ring-zinc-950 ':paymentDataUser.valid}"
+          type="submit"
+          class="flex w-full items-center justify-center rounded-lg transition duration-300  px-5 py-2.5 text-sm font-medium text-white focus:outline-none"
+        >
+          Pay now
+        </button>
+        <div class="mt-6 flex items-center justify-center gap-8">
+          <img
+            class="h-8 w-auto dark:hidden"
+            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal.svg"
+            alt=""
+          />
+          <img
+            class="hidden h-8 w-auto dark:flex"
+            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal-dark.svg"
+            alt=""
+          />
+          <img
+            class="h-8 w-auto dark:hidden"
+            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg"
+            alt=""
+          />
+          <img
+            class="hidden h-8 w-auto dark:flex"
+            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg"
+            alt=""
+          />
+          <img
+            class="h-8 w-auto dark:hidden"
+            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard.svg"
+            alt=""
+          />
+          <img
+            class="hidden h-8 w-auto dark:flex"
+            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard-dark.svg"
+            alt=""
+          />
+        </div>
+      </form>
+    </div>
+
+    <!-- <p class="mt-6 text-center text-gray-500 dark:text-gray-400 sm:mt-8 lg:text-left">
+                Payment processed by <a  title=""
+                    class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Paddle</a>
+                for <a  title=""
+                    class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Flowbite
+                    LLC</a>
+                - United States Of America
+            </p>  -->
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>

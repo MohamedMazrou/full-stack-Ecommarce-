@@ -1,0 +1,6 @@
+::ng-deep .ngx-pagination .current {
+    padding: .1875rem .625rem;
+    background: #000000 !important;
+    color: #fefefe !important;
+    cursor: default;
+}
