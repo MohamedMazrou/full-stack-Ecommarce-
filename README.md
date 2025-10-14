@@ -25,3 +25,28 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## project details
+This e-commerce project allows users to register or log in using Google or Facebook accounts via Firebase Authentication.
+Users can browse products, add them to their shopping cart, and track their orders in real time.
+
+The admin dashboard provides full control over the website — adding, editing, or deleting products, managing users, viewing monthly profits, and blocking or unblocking users when needed
+
+
+## main features
+🔹 User authentication with Google & Facebook
+
+🔹 Product management (Add / Edit / Delete)
+
+🔹 Cart system with order tracking
+
+🔹 Firebase real-time database integration
+
+🔹 Responsive modern UI built with Angular 17 & TailwindCSS
+
+🔹 Admin dashboard for full store control
+
+## email && password Dashboard
+admin@exmple.com
+12345678
+
