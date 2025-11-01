@@ -90,17 +90,22 @@ export class DashReceivedComponent {
       const dataprofits: IdateProfits[] = snap.data()?.['profits'];
 
       const check = dataprofits.map((ele: IdateProfits) => {
+        console.log( ele.month + 1)
+        console.log( date.getMonth() + 1 )
         if (
-          ele.month == date.getMonth() + 1 &&
+          ele.month + 1 == date.getMonth() + 1 &&
           ele.year == date.getFullYear()
         ) {
+          console.log("true")
           return { ...ele, year: ele.year, month: ele.month, total: total };
         } else {
+           console.log("false")
           return ele;
         }
       });
 
       updateDoc(profits, { profits: check });
     });
+    
   }
 }
